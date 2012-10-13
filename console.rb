@@ -11,7 +11,7 @@ end
 timer = Ti::Timer
 
 timer.every 1 do
-  msg = "Working for #{timer.minutes.to_s.color(:red)} minutes"
+  msg = "Working for #{timer.minutes.to_s.rjust(3).color(:red)} minutes"
   msg += " on #{timer.project.color(:green)}"
   msg += " - #{timer.task.color(:green)}" unless timer.task.empty?
   puts msg
