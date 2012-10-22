@@ -61,10 +61,10 @@ timer = Ti::Timer
 timer.on :finish do
 
   if prefix = ENV['NRTT_PREFIX']
-    client, project, _ = timer.project.split(':')
+    client, project, _ = timer.client.split(':')
     next if client != prefix
   else
-    project, _ = timer.project.split(':')
+    _ , project = timer.client.split(':')
   end
 
   if agree('Do you want to submit your hours to the NeonTracker now? Y/n')
