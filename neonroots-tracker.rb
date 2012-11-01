@@ -42,15 +42,17 @@ class NRTTClient
     URI("http://#{host}/api/tracktime")
   end
 
-  def post_time (minutes, project, description)
+  def post_time (minutes, project, description, start_time)
 
     data = {
       project:          project,
       description:      description,
       minutes:          minutes,
+      created_at:       start_time.strftime("%Y-%m-%d %H:%M"),
       user_auth_email:  email,
       user_auth_pass:   password,
     }
+    # puts data.inspect
 
     Net::HTTP.post_form(uri, data )
 
@@ -71,7 +73,7 @@ timer.on :finish do
     email = ENV['NRTT_EMAIL'] || ask('Email:')
     pass  = ENV['NRTT_PASS']  || ask('Password (will not be shown):'){|q| q.echo = false}
     tracker = NRTTClient.new(email, pass)
-    response = JSON.parse(tracker.post_time(timer.minutes, project, timer.task).body)
+    response = JSON.parse(tracker.post_time(timer.minutes, project, timer.task, timer.start_time).body)
     puts "#{response['response']}: #{response['message']}"
   end
 end
