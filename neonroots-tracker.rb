@@ -70,11 +70,12 @@ if ENV['NRTT_PREFIX']
       project, _ = timer.project.split(':')
     end
 
-  if agree('Do you want to submit your hours to the NeonTracker now? Y/n')
-    email = ENV['NRTT_EMAIL'] || ask('Email:')
-    pass  = ENV['NRTT_PASS']  || ask('Password (will not be shown):'){|q| q.echo = false}
-    tracker = NRTTClient.new(email, pass)
-    response = JSON.parse(tracker.post_time(timer.minutes, project, timer.task, timer.start_time).body)
-    puts "#{response['response']}: #{response['message']}"
+    if agree('Do you want to submit your hours to the NeonTracker now? Y/n')
+      email = ENV['NRTT_EMAIL'] || ask('Email:')
+      pass  = ENV['NRTT_PASS']  || ask('Password (will not be shown):'){|q| q.echo = false}
+      tracker = NRTTClient.new(email, pass)
+      response = JSON.parse(tracker.post_time(timer.minutes, project, timer.task, timer.start_time).body)
+      puts "#{response['response']}: #{response['message']}"
+    end
   end
 end
